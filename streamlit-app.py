@@ -74,8 +74,8 @@ if st.button("Scan Today’s Races"):
         if res:
             results.append(res)
 
-    if results:
-    st.success(f"{len(results)} Qualifiers Found")
+if results:
+    st.success(str(len(results)) + " Qualifiers Found")
     for r in results:
         st.write("👉 " + r)
 else:
