@@ -34,7 +34,7 @@ def check_race(url):
     # TEMP: do NOT filter yet
     return "TEST OK"
 
-        runners = soup.select(".RC-runnerRow")
+    runners = soup.select(".RC-runnerRow")
         if not (8 <= len(runners) <= 14):
             return None
 
