@@ -29,10 +29,10 @@ def check_race(url):
     r = requests.get(url)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    try:
-        race_type = soup.select_one(".RC-header__raceClass")
-        if not race_type or "handicap" not in race_type.text.lower():
-            return None
+    st.write("Checking:", url)
+
+    # TEMP: do NOT filter yet
+    return "TEST OK"
 
         runners = soup.select(".RC-runnerRow")
         if not (8 <= len(runners) <= 14):
