@@ -81,7 +81,10 @@ if st.button("Scan Today’s Races"):
 
     for r in races:
         st.write("Checking race:", r)
+
         res = check_race(r)
+        st.write("DEBUG RESULT:", res)
+
         if res:
             results.append(res)
 
