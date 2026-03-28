@@ -74,9 +74,9 @@ if st.button("Scan Today’s Races"):
         if res:
             results.append(res)
 
-if results:
-    st.success(str(len(results)) + " Qualifiers Found")
-    for r in results:
-        st.write("👉 " + r)
-else:
-    st.warning("No qualifiers today")
+    if results:
+        st.success(str(len(results)) + " Qualifiers Found")
+        for r in results:
+            st.write("👉 " + r)
+    else:
+        st.warning("No qualifiers today")
