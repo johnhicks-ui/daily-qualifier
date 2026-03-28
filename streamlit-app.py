@@ -4,9 +4,13 @@ from bs4 import BeautifulSoup
 
 st.title("Daily Qualifier")
 
+
+# ----------------------------
+# GET RACECARDS
+# ----------------------------
 def get_racecards():
     url = "https://www.racingpost.com/racecards/"
-    r = requests.get(url)
+    r = requests.get(url, timeout=10)
     soup = BeautifulSoup(r.text, "html.parser")
 
     races = []
@@ -14,65 +18,54 @@ def get_racecards():
     for link in soup.select("a.RC-meetingItem__link"):
         href = link.get("href")
 
-        if not href:
-            continue
+        if href:
+            full_url = "https://www.racingpost.com" + href
 
-        full_url = "https://www.racingpost.com" + href
-
-        # Keep ALL racecards from the main hub
-        if "/racecards/" in full_url:
-            races.append(full_url)
+            if "/racecards/" in full_url:
+                races.append(full_url)
 
     return list(set(races))
 
+
+# ----------------------------
+# CHECK RACE
+# ----------------------------
 def check_race(url):
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text, "html.parser")
+    try:
+        r = requests.get(url, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    st.write("Checking:", url)
+        # race type
+        race_type = soup.select_one(".RC-header__raceClass")
 
-    # TEMP: do NOT filter yet
-    return "TEST OK"
+        if race_type:
+            race_text = race_type.text.lower()
+        else:
+            race_text = ""
 
-    runners = soup.select(".RC-runnerRow")
+        # RULE 1: handicap only
+        if "handicap" not in race_text:
+            return None
+
+        # runners
+        runners = soup.select(".RC-runnerRow")
+
+        # RULE 5: 8–14 runners
         if not (8 <= len(runners) <= 14):
             return None
 
-        horses = []
+        # TEMP RESULT (proves system works)
+        return f"PASS: {url}"
 
-        for r in runners:
-            name = r.select_one(".RC-runnerName").text.strip()
-            weight = r.select_one(".RC-runnerWgt").text.strip()
-
-            st_, lb_ = map(int, weight.split("-"))
-            total = st_ * 14 + lb_
-
-            horses.append((name, total))
-
-        top_weight = max(h[1] for h in horses)
-        top = [h for h in horses if h[1] == top_weight]
-
-        if len(top) != 1:
-            return None
-
-        horse_name = top[0][0]
-
-        
-
-       
-
-        if not any(horse_name in p for p in parts):
-            return None
-
-        header = soup.select_one(".RC-header__timeCourse").text.strip()
-
-        return f"{header} — {horse_name}"
-
-    except:
+    except Exception:
         return None
 
 
+# ----------------------------
+# STREAMLIT APP
+# ----------------------------
 if st.button("Scan Today’s Races"):
+
     status = st.empty()
     status.write("Scanning...")
 
@@ -80,19 +73,18 @@ if st.button("Scan Today’s Races"):
     results = []
 
     for r in races:
-        st.write("Checking race:", r)
-
         res = check_race(r)
-        st.write("DEBUG RESULT:", res)
 
         if res:
             results.append(res)
 
     status.empty()
-    
+
     if results:
-        st.success(str(len(results)) + " Qualifiers Found")
+        st.success(f"{len(results)} Qualifiers Found")
+
         for r in results:
             st.write("👉 " + r)
+
     else:
         st.warning("No qualifiers today")
