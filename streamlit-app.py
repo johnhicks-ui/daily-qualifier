@@ -48,11 +48,9 @@ def check_race(url):
 
         horse_name = top[0][0]
 
-        forecast = soup.select_one(".RC-forecast")
-        if not forecast:
-            return None
+        
 
-        parts = forecast.text.split(",")[:2]
+       
 
         if not any(horse_name in p for p in parts):
             return None
