@@ -10,11 +10,20 @@ def get_racecards():
     soup = BeautifulSoup(r.text, "html.parser")
 
     races = []
+
     for link in soup.select("a.RC-meetingItem__link"):
         href = link.get("href")
-        if href:
-            races.append("https://www.racingpost.com" + href)
-    return races
+
+        if not href:
+            continue
+
+        full_url = "https://www.racingpost.com" + href
+
+        # Keep ALL racecards from the main hub
+        if "/racecards/" in full_url:
+            races.append(full_url)
+
+    return list(set(races))
 
 def check_race(url):
     r = requests.get(url)
