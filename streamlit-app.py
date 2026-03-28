@@ -64,7 +64,8 @@ def check_race(url):
 
 
 if st.button("Scan Today’s Races"):
-    st.write("Scanning...")
+    status = st.empty()
+    status.write("Scanning...")
 
     races = get_racecards()
     results = []
