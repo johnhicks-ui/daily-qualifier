@@ -60,7 +60,19 @@ if st.button("Scan Today’s Races"):
 
     status = st.empty()
     status.write("Scanning...")
+def get_racecards():
+    url = "https://www.racingpost.com/racecards/"
+    r = requests.get(url, timeout=10)
+    soup = BeautifulSoup(r.text, "html.parser")
 
+    races = []
+
+    for link in soup.select("a.RC-meetingItem__link"):
+        href = link.get("href")
+        if href:
+            races.append("https://www.racingpost.com" + href)
+
+    return races
     races = get_racecards()[:15]
     results = []
 
