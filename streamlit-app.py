@@ -31,37 +31,30 @@ def check_race(url):
         r = requests.get(url, timeout=10)
         soup = BeautifulSoup(r.text, "html.parser")
 
-        text = soup.get_text().lower()
+        text = soup.get_text(" ").lower()
 
         # RULE 1: handicap race
         if "handicap" not in text:
             return None
 
-        # Get all runner rows (best available method)
-        runners = soup.find_all("tr")
+        # Look for last-time winners (simple but effective)
+        winners = text.count(" 1 ")
 
-        qualifiers = []
+        # Look for runners (based on age markers)
+        runners = text.count("yo")
 
-        for runner in runners:
-            row_text = runner.get_text().lower()
+        # Basic filters
+        if not (8 <= runners <= 14):
+            return None
 
-            # crude filters (we refine later)
-            if "st" in row_text and "yo" in row_text:
+        if winners == 0:
+            return None
 
-                # RULE: last run winner (very basic)
-                if "1st" in row_text:
-
-                    qualifiers.append(row_text.strip()[:60])
-
-        if qualifiers:
-            return f"{url} -> {len(qualifiers)} possible"
-
-        return None
+        return f"Qualifier Race: {url} ({winners} possible)"
 
     except Exception:
         return None
       
-
 
 # ----------------------------
 # STREAMLIT APP
