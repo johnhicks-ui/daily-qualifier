@@ -40,10 +40,13 @@ def check_race(url):
             return None
 
         # crude runner count (works better here)
-        runners = text.count("st")  # "st" appears in weights
+        # Rule 1: handicap
+if "handicap" not in text:
+        return None
 
-        if not (8 <= runners <= 14):
-            return None
+# TEMP: skip runner count filter (data unreliable right now)
+
+return f"Possible Qualifier: {url}"
 
         return f"Possible Qualifier: {url}"
 
