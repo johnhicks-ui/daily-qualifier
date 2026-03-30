@@ -43,6 +43,13 @@ def check_race(url):
         if "handicap" not in text:
             return None
 
+        # TEMP: skip runner count (fix later)
+
+        return f"Possible Qualifier: {url}"
+
+    except Exception:
+        return None
+
       
 
 
