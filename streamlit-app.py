@@ -35,19 +35,20 @@ def check_race(url):
 
         text = soup.get_text().lower()
 
-        # Rule 1: handicap
+        # Rule 1: handicap only
         if "handicap" not in text:
             return None
 
-        # crude runner count (works better here)
-        # Rule 1: handicap
-if "handicap" not in text:
+        # TEMP: skip runner count (fix later)
+
+        return f"Possible Qualifier: {url}"
+
+    except Exception:
         return None
 
 # TEMP: skip runner count filter (data unreliable right now)
 
 return f"Possible Qualifier: {url}"
-
         return f"Possible Qualifier: {url}"
 
     except Exception:
