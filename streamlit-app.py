@@ -25,6 +25,8 @@ def check_race(url):
 
     except Exception:
         return None
+    except Exception:
+        return None
 
 
 # ----------------------------
