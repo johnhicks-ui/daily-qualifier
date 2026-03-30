@@ -69,7 +69,7 @@ if st.button("Scan Today’s Races"):
     status = st.empty()
     status.write("Scanning...")
 
-    races = get_racecards()
+    races = get_racecards()[:10]
     results = []
 
     for r in races:
