@@ -33,41 +33,33 @@ def check_race(url):
 
         text = soup.get_text().lower()
 
-        # Rule 1: handicap only
+        # RULE 1: handicap race
         if "handicap" not in text:
             return None
 
-        # TEMP: skip runner count
+        # Get all runner rows (best available method)
+        runners = soup.find_all("tr")
 
-        return f"Possible Qualifier: {url}"
+        qualifiers = []
+
+        for runner in runners:
+            row_text = runner.get_text().lower()
+
+            # crude filters (we refine later)
+            if "st" in row_text and "yo" in row_text:
+
+                # RULE: last run winner (very basic)
+                if "1st" in row_text:
+
+                    qualifiers.append(row_text.strip()[:60])
+
+        if qualifiers:
+            return f"{url} -> {len(qualifiers)} possible"
+
+        return None
 
     except Exception:
         return None
-    except Exception:
-        return None
-
-
-# ----------------------------
-# CHECK RACE
-# ----------------------------
-def check_race(url):
-    try:
-        r = requests.get(url, timeout=10)
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        text = soup.get_text().lower()
-
-        # Rule 1: handicap only
-        if "handicap" not in text:
-            return None
-
-        # TEMP: skip runner count (fix later)
-
-        return f"Possible Qualifier: {url}"
-
-    except Exception:
-        return None
-
       
 
 
