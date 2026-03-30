@@ -93,7 +93,7 @@ if st.button("Scan Today’s Races"):
         if res:
             results.append(res)
 
-    status.empty()
+    
 
     if results:
         st.success(f"{len(results)} Races Found")
