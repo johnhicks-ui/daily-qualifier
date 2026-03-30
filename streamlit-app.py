@@ -1,6 +1,9 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+
+st.title("Daily Qualifier")
+
 def get_racecards():
     try:
         url = "https://www.racingpost.com/racecards/"
