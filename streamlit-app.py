@@ -1,6 +1,17 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+def get_racecards():
+    url = "https://www.racingpost.com/racecards/"
+    r = requests.get(url, timeout=10)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    races = []
+
+    for link in soup.select("a.RC-meetingItem__link"):
+        href = link.get("href")
+        if href:
+            races.append("https://www.racingpost.com" + href)
 
 st.title("Daily Qualifier")
 
