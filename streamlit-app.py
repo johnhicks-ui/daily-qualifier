@@ -8,21 +8,23 @@ st.title("Daily Qualifier")
 # ----------------------------
 # GET RACECARDS (Sporting Life)
 # ----------------------------
-def get_racecards():
-    url = "https://www.sportinglife.com/racing/racecards"
-    r = requests.get(url, timeout=10)
-    soup = BeautifulSoup(r.text, "html.parser")
+def check_race(url):
+    try:
+        r = requests.get(url, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    races = []
+        text = soup.get_text().lower()
 
-    for link in soup.select("a[href*='/racing/racecards/']"):
-        href = link.get("href")
+        # Rule 1: handicap only
+        if "handicap" not in text:
+            return None
 
-        if href and "/racecards/" in href:
-            full_url = "https://www.sportinglife.com" + href
-            races.append(full_url)
+        # TEMP: skip runner count
 
-    return list(set(races))
+        return f"Possible Qualifier: {url}"
+
+    except Exception:
+        return None
 
 
 # ----------------------------
