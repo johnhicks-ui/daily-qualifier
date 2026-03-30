@@ -58,26 +58,22 @@ def check_race(url):
 # ----------------------------
 if st.button("Scan Today’s Races"):
 
-    status = st.empty()
-    status.write("Scanning...")
-def get_racecards():
-    url = "https://www.racingpost.com/racecards/"
-    r = requests.get(url, timeout=10)
-    soup = BeautifulSoup(r.text, "html.parser")
+    with st.spinner("Scanning races..."):
+        races = get_racecards()[:15]
 
-    races = []
+        results = []
 
-    for link in soup.select("a.RC-meetingItem__link"):
-        href = link.get("href")
-        if href:
-            races.append("https://www.racingpost.com" + href)
+        for r in races:
+            res = check_race(r)
+            if res:
+                results.append(res)
 
-    return races
-    races = get_racecards()[:15]
-    results = []
-
-    for r in races:
-        res = check_race(r)
+    if results:
+        st.success(f"{len(results)} Qualifiers Found")
+        for r in results:
+            st.write("👉 " + r)
+    else:
+        st.warning("No qualifiers today")
 
         if res:
             results.append(res)
