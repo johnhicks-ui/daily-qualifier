@@ -47,8 +47,8 @@ def check_race(url):
         if not (8 <= runners <= 14):
             return None
 
-        if winners == 0:
-            return None
+        #if winners == 0:
+        #    return None
 
         return f"Qualifier Race: {url} ({winners} possible)"
 
