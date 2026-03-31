@@ -66,7 +66,7 @@ def check_race(url):
 
     except Exception:
         return None
-f st.button("Scan Today’s Races"):
+if st.button("Scan Today’s Races"):
 
     with st.spinner("Scanning races..."):
         races = get_racecards()[:15]
