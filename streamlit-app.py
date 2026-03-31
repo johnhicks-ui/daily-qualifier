@@ -28,33 +28,9 @@ def get_racecards():
 # ----------------------------
 def check_race(url):
     try:
-        r = requests.get(url, timeout=10)
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        text = soup.get_text(" ").lower()
-
-        # RULE 1: handicap race
-        if "handicap" not in text:
-            return None
-
-        # Look for last-time winners (simple but effective)
-        winners = text.count(" 1 ")
-
-        # Look for runners (based on age markers)
-        runners = text.count("yo")
-
-        # Basic filters
-        if not (8 <= runners <= 14):
-            return None
-
-        #if winners == 0:
-        #    return None
-
-        return f"Qualifier Race: {url} ({winners} possible)"
-
+        return f"Race found: {url}"
     except Exception:
         return None
-      
 
 # ----------------------------
 # STREAMLIT APP
