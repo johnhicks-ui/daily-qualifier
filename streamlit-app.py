@@ -28,7 +28,16 @@ def get_racecards():
 # ----------------------------
 def check_race(url):
     try:
-        return f"Race found: {url}"
+        r = requests.get(url, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        text = soup.get_text().lower()
+
+        if "handicap" not in text:
+            return None
+
+        return f"Handicap race: {url}"
+
     except Exception:
         return None
 
