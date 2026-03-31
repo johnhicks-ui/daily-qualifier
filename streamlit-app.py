@@ -43,10 +43,9 @@ if st.button("Scan Today’s Races"):
         results = []
 
         for r in races:
-    res = check_race(r)
-
-    if res:
-        results.append(res)
+            res = check_race(r)
+            if res:
+                results.append(res)
 
     if results:
         st.success(f"{len(results)} Qualifiers Found")
