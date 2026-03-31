@@ -44,17 +44,21 @@ def check_race(url):
 # ----------------------------
 # STREAMLIT APP
 # ----------------------------
-if st.button("Scan Today’s Races"):
+def check_race(url):
+    try:
+        r = requests.get(url, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-    races = get_racecards()[:15]
-    results = []
+        text = soup.get_text(" ").lower()
 
-    for r in races:
-        res = check_race(r)
-        if res:
-            results.append(res)
+        # safer detection (less strict)
+        if "race" not in text:
+            return None
 
-    st.success(f"{len(results)} Races Found")
+        if "handicap" in text:
+            return f"Handicap race: {url}"
 
-    for r in results:
-        st.write(r)
+        return None
+
+    except Exception:
+        return None
