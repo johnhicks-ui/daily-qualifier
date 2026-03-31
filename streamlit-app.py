@@ -31,12 +31,16 @@ def check_race(url):
         r = requests.get(url, timeout=10)
         soup = BeautifulSoup(r.text, "html.parser")
 
-        text = soup.get_text().lower()
+        text = soup.get_text(" ").lower()
 
-        if "handicap" not in text:
+        # safer detection (less strict)
+        if "race" not in text:
             return None
 
-        return f"Handicap race: {url}"
+        if "handicap" in text:
+            return f"Handicap race: {url}"
+
+        return None
 
     except Exception:
         return None
