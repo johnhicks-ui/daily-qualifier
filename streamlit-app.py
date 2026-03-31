@@ -46,32 +46,15 @@ def check_race(url):
 # ----------------------------
 if st.button("Scan Today’s Races"):
 
-    with st.spinner("Scanning races..."):
-        races = get_racecards()[:15]
+    races = get_racecards()[:15]
+    results = []
 
-        results = []
+    for r in races:
+        res = check_race(r)
+        if res:
+            results.append(res)
 
-        for r in races:
-            res = check_race(r)
-            if res:
-                results.append(res)
+    st.success(f"{len(results)} Races Found")
 
-    if results:
-        
-        for r in results:
-            st.write("👉 " + r)
-    else:
-        st.warning("No qualifiers today")
-
-        
-
-    
-
-    if results:
-        st.success(f"{len(results)} Races Found")
-
-        for r in results:
-            st.write("👉 " + r)
-
-    else:
-        st.warning("No qualifiers today")
+    for r in results:
+        st.write(r)
