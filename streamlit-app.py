@@ -1,3 +1,4 @@
+import streamlit as st
 def test_open_race(url):
     import requests
     from bs4 import BeautifulSoup
