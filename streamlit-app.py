@@ -88,3 +88,5 @@ if st.button("Scan Today’s Races"):
             st.write("👉 " + r)
     else:
         st.warning("No races found")
+        print(test_open_race("PASTE_A_RACE_URL_HERE"))
+        
