@@ -1,31 +1,18 @@
 def test_open_race(url):
-    r = requests.get(url)
+    import requests
+    from bs4 import BeautifulSoup
+
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    return soup.title.text
-import streamlit as st
-import requests
-from bs4 import BeautifulSoup
-
-st.title("Daily Qualifier")
-
-def get_racecards():
-    try:
-        url = "https://www.racingpost.com/racecards/"
-        r = requests.get(url, timeout=10)
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        races = []
-
-        for link in soup.select("a.RC-meetingItem__link"):
-            href = link.get("href")
-            if href:
-                races.append("https://www.racingpost.com" + href)
-
-        return races
-
-    except Exception:
-        return []
+    if soup.title:
+        return soup.title.text
+    else:
+        return "No title found (page likely blocked)"
 
 
 # ----------------------------
