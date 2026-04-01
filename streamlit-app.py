@@ -1,3 +1,8 @@
+def test_open_race(url):
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    return soup.title.text
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
