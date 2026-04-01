@@ -39,23 +39,22 @@ def check_horse(horse, race_size):
 qualifiers = []
 
 for race in races:
-    race_size = len(race["runners"])
-    max_race_weight = max(r["weight"] for r in race["runners"])
+    runners = race["runners"]
+    race_size = len(runners)
 
-    for horse in race["runners"]:
+    # rule 4: runners 8–14
+    if not (8 <= race_size <= 14):
+        continue
+
+    max_weight = max(r["weight"] for r in runners)
+
+    for horse in runners:
         if (
-            horse["weight"] == max_race_weight and
+            horse["weight"] == max_weight and
             horse["last_win"] == True and
-            8 <= race_size <= 14 and
             horse["bet_rank"] <= 2
         ):
             qualifiers.append({
                 "race": race["race_name"],
                 "horse": horse["horse"]
             })
-
-# -----------------------------
-# OUTPUT
-# -----------------------------
-st.write("Qualifiers Found:")
-st.write(qualifiers)
