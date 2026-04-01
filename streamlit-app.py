@@ -59,16 +59,16 @@ def check_race(url):
 
     except Exception:
         return None
-if st.button("Scan Today’s Races"):
+# if st.button("Scan Today’s Races"):
 
-    with st.spinner("Scanning races..."):
-      # races = get_racecards()[:15]
-        results = []
+    # with st.spinner("Scanning races..."):
+    # races = get_racecards()[:15]
+    # results = []
 
-      # for r in races:
-            res = check_race(r)
-            if res:
-        #   results.append(res)
+    # for r in races:
+    #     res = check_race(r)
+    #  res:
+    #   results.append(res)
 
     if results:
         st.success(f"{len(results)} Races Found")
