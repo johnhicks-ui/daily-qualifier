@@ -13,18 +13,8 @@ def get_racecards():
     }
 
     r = requests.get(url, headers=headers, timeout=10)
-    soup = BeautifulSoup(r.text, "html.parser")
 
-    links = []
-
-    for a in soup.find_all("a"):
-        href = a.get("href")
-        if href and "racecard" in href:
-            if href.startswith("/"):
-                href = "https://www.attheraces.com" + href
-            links.append(href)
-
-    return links[:10]
+    return r.text[:1000]
 
 st.write("Sample race links:")
 st.write(get_racecards())
