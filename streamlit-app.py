@@ -1,7 +1,18 @@
 import streamlit as st
+import requests
+from bs4 import BeautifulSoup
 def test_open_race(url):
-    import requests
-    from bs4 import BeautifulSoup
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    if soup.title:
+        return soup.title.text
+    else:
+        return "No title found"
 st.write("App is running")
     headers = {
         "User-Agent": "Mozilla/5.0"
