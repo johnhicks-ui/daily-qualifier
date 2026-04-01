@@ -1,13 +1,21 @@
+import streamlit as st
+import requests
+
+st.title("Daily Qualifier")
+
 def test_connection():
-    url = "https://www.racingpost.com/racecards/"
+    try:
+        url = "https://www.racingpost.com/racecards/"
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36",
-        "Accept-Language": "en-GB,en;q=0.9",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Connection": "keep-alive"
-    }
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
 
-    r = requests.get(url, headers=headers)
+        r = requests.get(url, headers=headers, timeout=10)
 
-    return r.status_code
+        return f"Status code: {r.status_code}"
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+st.write(test_connection())
