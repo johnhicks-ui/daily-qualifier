@@ -8,9 +8,14 @@ st.title("Daily Qualifier - Test Build")
 # TEST FUNCTION ONLY
 # -----------------------------
 def test_open_race(url):
+    import requests
+    from bs4 import BeautifulSoup
+
     headers = {
         "User-Agent": "Mozilla/5.0"
     }
+
+    base = "https://www.racingpost.com"
 
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
@@ -21,11 +26,14 @@ def test_open_race(url):
 
     for link in links:
         href = link.get("href")
-        if href and "racecards" in href:
-            race_links.append(href)
+
+        if href:
+            # only keep real racecards (not navigation junk)
+            if "/racecards/" in href and len(href.split("/")) > 3:
+                full_url = base + href
+                race_links.append(full_url)
 
     return race_links[:10]
-
 # -----------------------------
 # RUN TEST
 # -----------------------------
