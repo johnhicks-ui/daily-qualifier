@@ -53,7 +53,7 @@ def check_race(url):
             return None
 
         if "handicap" in text:
-            return f"Handicap race: {url}"
+            return f"Handicap race: {url}"  
 
         return None
 
@@ -68,7 +68,7 @@ if st.button("Scan Today’s Races"):
       # for r in races:
             res = check_race(r)
             if res:
-                results.append(res)
+        #   results.append(res)
 
     if results:
         st.success(f"{len(results)} Races Found")
