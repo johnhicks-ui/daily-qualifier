@@ -62,10 +62,10 @@ def check_race(url):
 if st.button("Scan Today’s Races"):
 
     with st.spinner("Scanning races..."):
-        races = get_racecards()[:15]
+      # races = get_racecards()[:15]
         results = []
 
-        for r in races:
+      # for r in races:
             res = check_race(r)
             if res:
                 results.append(res)
