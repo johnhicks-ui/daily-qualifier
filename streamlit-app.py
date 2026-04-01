@@ -7,10 +7,16 @@ st.title("Daily Qualifier (API Build)")
 # -----------------------------
 races = [
     {
-        "race_name": "Test Race 1",
+        "race_name": "Handicap Race Example",
         "runners": [
-            {"horse": "Horse A", "weight": 11, "last_win": True, "bet_rank": 1},
-            {"horse": "Horse B", "weight": 10, "last_win": False, "bet_rank": 3},
+            {"horse": "Horse A", "weight": 12, "last_win": True, "bet_rank": 1},
+            {"horse": "Horse B", "weight": 11, "last_win": False, "bet_rank": 2},
+            {"horse": "Horse C", "weight": 12, "last_win": True, "bet_rank": 3},
+            {"horse": "Horse D", "weight": 10, "last_win": True, "bet_rank": 2},
+            {"horse": "Horse E", "weight": 9, "last_win": False, "bet_rank": 1},
+            {"horse": "Horse F", "weight": 12, "last_win": True, "bet_rank": 2},
+            {"horse": "Horse G", "weight": 8, "last_win": False, "bet_rank": 4},
+            {"horse": "Horse H", "weight": 12, "last_win": True, "bet_rank": 1},
         ]
     }
 ]
