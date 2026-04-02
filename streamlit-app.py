@@ -19,21 +19,20 @@ def get_racecards():
     for a in soup.find_all("a", href=True):
         href = a.get("href")
 
-    if not href:
-        continue
+        if not href:
+           continue
 
-    if "/racecards/" not in href:
-        continue
+        if "/racecards/" not in href:
+            continue
 
-    if href.count("/") < 5:
-        continue
+        if href.count("/") < 5:
+            continue
 
-    if "/kelso/" in href or "/clonmel/" in href or "/aintree/" in href or "/leopardstown/" in href or "/navan/" in href:
-        if href.startswith("http"):
-            links.append(href)
-        else:
-            links.append("https://www.racingpost.com" + href)
-    return list(set(links))
+        if "/kelso/" in href or "/clonmel/" in href or "/aintree/" in href or "/leopardstown/" in href or "/navan/" in href:
+            if href.startswith("http"):
+                links.append(href)
+            else:
+                links.append("https://www.racingpost.com" + href)
 
 st.title("Daily Qualifier (API Build)")
 
