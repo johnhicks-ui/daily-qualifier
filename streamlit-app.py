@@ -17,7 +17,7 @@ def get_racecards():
     links = []
 
     for a in soup.find_all("a", href=True):
-    href = a.get("href")
+        href = a.get("href")
 
     if not href:
         continue
