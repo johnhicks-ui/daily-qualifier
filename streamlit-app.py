@@ -19,7 +19,8 @@ def get_racecards():
     for a in soup.find_all("a", href=True):
         href = a["href"]
 
-        if "/racecards/" in href and href.count("/") > 2:
+        if "/racecards/" in href and href.count("/") >= 5:
+    if any(x in href for x in ["/kelso/", "/clonmel/", "/aintree/", "/leopardstown/", "/navan/"]):
             if href.startswith("http"):
                 links.append(href)
             else:
