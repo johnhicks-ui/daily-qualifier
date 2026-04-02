@@ -1,6 +1,9 @@
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
+def get_racecards():
+    return ["test_link_1", "test_link_2"]
+
 st.title("Daily Qualifier (API Build)")
 
 # -----------------------------
