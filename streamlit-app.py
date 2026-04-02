@@ -7,7 +7,7 @@ st.title("Daily Qualifier (API Build)")
 races = [
     {
         "race_name": "Perfect Test Race",
-        "runners": [import requests
+        
 from bs4 import BeautifulSoup
 
 def get_racecards():
