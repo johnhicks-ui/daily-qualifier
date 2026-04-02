@@ -1,13 +1,4 @@
-import streamlit as st
-def get_racecards():
-    url = "https://www.racingpost.com/racecards"
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
 
-    r = requests.get(url, headers=headers)
-
-    return r.status_code
 st.title("Daily Qualifier (API Build)")
 
 # -----------------------------
@@ -16,7 +7,31 @@ st.title("Daily Qualifier (API Build)")
 races = [
     {
         "race_name": "Perfect Test Race",
-        "runners": [
+        "runners": [import requests
+from bs4 import BeautifulSoup
+
+def get_racecards():
+    url = "https://www.racingpost.com/racecards/"
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+
+    r = requests.get(url, headers=headers)
+
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    links = []
+
+    for a in soup.find_all("a", href=True):
+        href = a["href"]
+
+        if "/racecards/" in href and href.count("/") > 2:
+            if href.startswith("http"):
+                links.append(href)
+            else:
+                links.append("https://www.racingpost.com" + href)
+
+    return list(set(links))
             {"horse": "Horse A", "weight": 12, "last_win": True, "bet_rank": 1},  # top weight unique
             {"horse": "Horse B", "weight": 11, "last_win": False, "bet_rank": 3},
             {"horse": "Horse C", "weight": 10, "last_win": False, "bet_rank": 2},
