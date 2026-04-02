@@ -1,5 +1,13 @@
 import streamlit as st
+def get_racecards():
+    url = "https://www.racingpost.com/racecards"
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
 
+    r = requests.get(url, headers=headers)
+
+    return r.status_code
 st.title("Daily Qualifier (API Build)")
 
 # -----------------------------
