@@ -29,29 +29,24 @@ st.write("Races loaded:", len(races))
 qualifiers = []
 
 for race in races:
-    st.write("Processing race:", race["race_name"])
-
     runners = race["runners"]
     race_size = len(runners)
 
-    st.write("Runner count:", race_size)
-
     if not (8 <= race_size <= 14):
-        st.write("Skipped (runner rule)")
         continue
 
     max_weight = max(r["weight"] for r in runners)
-    st.write("Max weight:", max_weight)
 
-    for horse in runners:
-        st.write("Checking horse:", horse["horse"])
+    top_weight_horses = [h for h in runners if h["weight"] == max_weight]
 
-        if (
-            horse["weight"] == max_weight and
-            horse["last_win"] == True and
-            horse["bet_rank"] <= 2
-        ):
-            qualifiers.append(horse["horse"])
+    # 🚨 NEW RULE: must be UNIQUE top weight
+    if len(top_weight_horses) != 1:
+        continue
+
+    horse = top_weight_horses[0]
+
+    if horse["last_win"] and horse["bet_rank"] <= 2:
+        qualifiers.append(horse["horse"])
 
 st.write("FINAL QUALIFIERS:")
 st.write(qualifiers)
