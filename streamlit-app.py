@@ -40,7 +40,7 @@ def get_racecards():
             {"horse": "Horse F", "weight": 7, "last_win": False, "bet_rank": 6},
             {"horse": "Horse G", "weight": 6, "last_win": False, "bet_rank": 7},
             {"horse": "Horse H", "weight": 5, "last_win": False, "bet_rank": 8},
-        ]
+        }
     }
 ]
 
