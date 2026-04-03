@@ -12,7 +12,7 @@ def get_runners(url):
     return "TEST_FUNCTION_IS_RUNNING"
 
 
-st.write("Races loaded:", len(races))
+
 
 # -----------------------------
 # DEBUG LOOP
