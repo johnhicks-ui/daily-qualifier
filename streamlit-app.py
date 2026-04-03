@@ -17,6 +17,12 @@ def get_runners(url):
 
     soup = BeautifulSoup(r.text, "html.parser")
 
+    page_text = soup.get_text(" ").lower()
+
+    # RULE 1: must be handicap
+    if "handicap" not in page_text:
+        return None
+
     horses = []
 
     for td in soup.find_all("td"):
@@ -26,16 +32,16 @@ def get_runners(url):
             parts = text.split(".")
             if len(parts) > 1:
                 name = parts[1].split("(")[0].strip()
+
                 if len(name) > 2:
                     horses.append(name)
 
     horses = list(set(horses))
 
-    # RULE 1: runner count
-    if len(horses) < 8 or len(horses) > 14:
+    if not horses:
         return None
 
-    # TEMP: return first horse (we improve next)
+    # TEMP: still placeholder logic
     return horses[0]
 st.title("Daily Qualifier (API Build)")
 links = get_racecards()
