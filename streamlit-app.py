@@ -30,6 +30,8 @@ st.title("Daily Qualifier (API Build)")
 links = get_racecards()
 st.write("Race Links:")
 st.write(links)
+st.write("Sample runners from first race:")
+st.write(get_runners(links[0]))
 # -----------------------------
 # SIMPLE TEST DATA
 # -----------------------------
