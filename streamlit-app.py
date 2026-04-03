@@ -1,3 +1,4 @@
+st.write("NEW CODE IS RUNNING")
 import streamlit as st
 import requests
 from bs4 import BeautifulSoup
@@ -9,8 +10,7 @@ def get_racecards():
     ]
     
 def get_runners(url):
-    return "TEST_FUNCTION_IS_RUNNING"
-
+    return "WORKING - READY FOR SCRAPER"
 
 
 
