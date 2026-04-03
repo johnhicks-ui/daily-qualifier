@@ -10,8 +10,6 @@ def get_racecards():
     
 def get_runners(url):
     return "TEST_FUNCTION_IS_RUNNING"
-if links:
-    st.write(get_runners(links[0]))
 
 
 st.write("Races loaded:", len(races))
@@ -41,7 +39,14 @@ for race in races:
     if horse["last_win"] and horse["bet_rank"] <= 2:
         qualifiers.append(horse["horse"])
 
-st.write("FINAL QUALIFIERS:")
-st.write(qualifiers)
+st.title("Daily Qualifier (API Build)")
+
+links = get_racecards()
+
 st.write("Race Links:")
+st.write(links)
+
+st.write("Qualifier from first race:")
+if links:
+    st.write(get_runners(links[0]))
 
