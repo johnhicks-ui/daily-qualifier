@@ -7,7 +7,25 @@ def get_racecards():
         "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
         "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
     ]
+    
+def get_runners(url):
+    import requests
+    from bs4 import BeautifulSoup
 
+    headers = {"User-Agent": "Mozilla/5.0"}
+    r = requests.get(url, headers=headers)
+
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    horses = []
+
+    for a in soup.find_all("a"):
+        text = a.get_text(strip=True)
+
+        if text and len(text) > 2:
+            horses.append(text)
+
+    return horses[:20]
 st.title("Daily Qualifier (API Build)")
 links = get_racecards()
 st.write("Race Links:")
