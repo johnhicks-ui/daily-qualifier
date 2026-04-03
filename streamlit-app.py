@@ -22,20 +22,21 @@ def get_runners(url):
     for td in soup.find_all("td"):
         text = td.get_text(strip=True)
 
-        if text:
-            # look for pattern like "7.Horse Name"
-            if text[0].isdigit() and "." in text:
-                parts = text.split(".")
-                if len(parts) > 1:
-                    name_part = parts[1]
+        if text and text[0].isdigit() and "." in text:
+            parts = text.split(".")
+            if len(parts) > 1:
+                name = parts[1].split("(")[0].strip()
+                if len(name) > 2:
+                    horses.append(name)
 
-                    # cut off odds/jockey info
-                    name = name_part.split("(")[0].strip()
+    horses = list(set(horses))
 
-                    if len(name) > 2:
-                        horses.append(name)
+    # RULE 1: runner count
+    if len(horses) < 8 or len(horses) > 14:
+        return None
 
-    return list(set(horses))
+    # TEMP: return first horse (we improve next)
+    return horses[0]
 st.title("Daily Qualifier (API Build)")
 links = get_racecards()
 st.write("Race Links:")
