@@ -10,7 +10,8 @@ def get_racecards():
     
 def get_runners(url):
     return "TEST_FUNCTION_IS_RUNNING"
-st.write(get_runners(links[0]))
+if links:
+    st.write(get_runners(links[0]))
 
 
 st.write("Races loaded:", len(races))
