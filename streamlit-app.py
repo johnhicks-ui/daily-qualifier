@@ -61,4 +61,4 @@ for race in races:
 st.write("FINAL QUALIFIERS:")
 st.write(qualifiers)
 st.write("Race Links:")
-st.write(get_racecards()[:10])
+
