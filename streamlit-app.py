@@ -19,13 +19,15 @@ def get_runners(url):
 
     horses = []
 
-    for a in soup.find_all("a"):
-        text = a.get_text(strip=True)
+    for td in soup.find_all("td"):
+        text = td.get_text(strip=True)
 
-        if text and len(text) > 2:
-            horses.append(text)
+        if text:
+            # simple filter to remove rubbish
+            if len(text) > 3 and " " in text:
+                horses.append(text)
 
-    return horses[:20]
+    return list(set(horses))[:20]
 st.title("Daily Qualifier (API Build)")
 links = get_racecards()
 st.write("Race Links:")
