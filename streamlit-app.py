@@ -2,33 +2,16 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 def get_racecards():
-    url = "https://www.racingpost.com/racecards"
-    headers = {"User-Agent": "Mozilla/5.0"}
-
-    r = requests.get(url, headers=headers)
-
-    soup = BeautifulSoup(r.text, "html.parser")
-
-    links = []
-
-    for a in soup.find_all("a", href=True):
-        href = a.get("href")
-
-        if not href:
-            continue
-
-        if "/racecards/" not in href:
-            continue
-
-        if href.startswith("http"):
-            links.append(href)
-        else:
-            links.append("https://www.racingpost.com" + href)
-
-    return links
+    return [
+        "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
+        "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
+        "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
+    ]
 
 st.title("Daily Qualifier (API Build)")
-
+links = get_racecards()
+st.write("Race Links:")
+st.write(links)
 # -----------------------------
 # SIMPLE TEST DATA
 # -----------------------------
