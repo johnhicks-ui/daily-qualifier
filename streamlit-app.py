@@ -23,11 +23,19 @@ def get_runners(url):
         text = td.get_text(strip=True)
 
         if text:
-            # simple filter to remove rubbish
-            if len(text) > 3 and " " in text:
-                horses.append(text)
+            # look for pattern like "7.Horse Name"
+            if text[0].isdigit() and "." in text:
+                parts = text.split(".")
+                if len(parts) > 1:
+                    name_part = parts[1]
 
-    return list(set(horses))[:20]
+                    # cut off odds/jockey info
+                    name = name_part.split("(")[0].strip()
+
+                    if len(name) > 2:
+                        horses.append(name)
+
+    return list(set(horses))
 st.title("Daily Qualifier (API Build)")
 links = get_racecards()
 st.write("Race Links:")
