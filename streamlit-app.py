@@ -17,6 +17,7 @@ def get_racecards():
         "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
         "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
     ]
+] 
 def get_runners(url):
     import requests
     from bs4 import BeautifulSoup
@@ -26,25 +27,33 @@ def get_runners(url):
 
     soup = BeautifulSoup(r.text, "html.parser")
 
-    horses = []
+    runners = []
 
-    for td in soup.find_all("td"):
-        text = td.get_text(strip=True)
+    # grab likely runner name links/text
+    for a in soup.find_all("a"):
+        text = a.get_text(strip=True)
 
-        if text and text[0].isdigit() and "." in text:
-            parts = text.split(".")
-            if len(parts) > 1:
-                name = parts[1].split("(")[0].strip()
+        if not text:
+            continue
 
-                if len(name) > 2:
-                    horses.append(name)
+        # filter obvious junk
+        if len(text) < 3:
+            continue
 
-    horses = list(set(horses))
+        if any(x in text.lower() for x in [
+            "racecard", "results", "news", "tips",
+            "bet", "casino", "shop"
+        ]):
+            continue
 
-    if not horses:
-        return None
+        # avoid navigation/header noise
+        if text[0].isupper():
+            runners.append(text)
 
-    return horses[0]  
+    # remove duplicates
+    runners = list(dict.fromkeys(runners))
+
+    return runners[0] if runners else None
 st.title("Daily Qualifier (API Build)")
 
 links = get_racecards()
