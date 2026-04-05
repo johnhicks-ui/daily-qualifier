@@ -1,4 +1,6 @@
 import streamlit as st
+import requests
+from bs4 import BeautifulSoup
 
 st.write("NEW CODE IS RUNNING")
 
