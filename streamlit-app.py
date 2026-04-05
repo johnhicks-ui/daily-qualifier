@@ -54,31 +54,5 @@ st.write(links)
 st.write("Qualifier from first race:")
 if links:
     st.write(get_runners(links[0]))
-🧠 What this fixes
 
-✔ removes duplicates
-✔ fixes broken list syntax
-✔ removes stray code outside functions
-✔ ensures Python structure is valid
-✔ makes file run cleanly
-
-▶️ After you run this
-
-You will either see:
-
-✅ a horse name
-
-or
-
-⚠️ None (then we improve scraping next)
-👉 Next step after it runs
-
-Once stable, I’ll upgrade you to:
-
-REAL runner extraction (no guessing)
-filtering handicap races only
-proper qualifier logic
-removing junk entirely
-
-Just run this version and tell me what you get 👍
 
