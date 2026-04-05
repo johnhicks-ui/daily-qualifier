@@ -17,7 +17,7 @@ def get_racecards():
         "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
         "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
     ]
-  def get_runners(url):
+def get_runners(url):
     import requests
     from bs4 import BeautifulSoup
 
