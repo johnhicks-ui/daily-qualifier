@@ -24,11 +24,7 @@ def get_runners(url):
     runners = []
 
     for w in words:
-        if (
-            w.isalpha()
-            and w[0].isupper()
-            and 3 <= len(w) <= 25
-        ):
+        if w.isalpha() and w[0].isupper() and 3 <= len(w) <= 25:
             runners.append(w)
 
     runners = list(dict.fromkeys(runners))
@@ -46,21 +42,3 @@ st.write(links)
 st.write("Qualifier from first race:")
 if links:
     st.write(get_runners(links[0]))
-⚠️ VERY IMPORTANT RULE
-
-From now on:
-
-👉 NEVER edit inside broken code
-👉 ALWAYS replace whole file when errors stack up
-
-Otherwise Python keeps “half-reading” old structure and breaks randomly.
-
-▶️ Next step
-
-Run this clean version and tell me what you get:
-
-horse name?
-Try Again?
-or blank?
-
-Once this runs clean, we move to the proper Racing Post structured extractor (final stage) 👍
