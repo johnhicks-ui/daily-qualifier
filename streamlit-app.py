@@ -1,8 +1,7 @@
 import streamlit as st
+
 st.write("NEW CODE IS RUNNING")
-import streamlit as st
-import requests
-from bs4 import BeautifulSoup
+
 def get_racecards():
     return [
         "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
