@@ -16,7 +16,6 @@ st.write("NEW CODE IS RUNNING")
 def get_racecards():
     return [
         "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
-import streamlit as st
 
 st.write("NEW CODE IS RUNNING")
 
