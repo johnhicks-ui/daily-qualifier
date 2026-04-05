@@ -16,28 +16,28 @@ def get_racecards():
 def get_runners(url):
     headers = {"User-Agent": "Mozilla/5.0"}
     r = requests.get(url, headers=headers)
-
     soup = BeautifulSoup(r.text, "html.parser")
 
     runners = []
 
-    for a in soup.find_all("a"):
-        text = a.get_text(strip=True)
+    # Racing Post runner names usually appear in bold/strong or specific links
+    for tag in soup.find_all(["strong", "a"]):
+        text = tag.get_text(strip=True)
 
         if not text:
             continue
 
-        if len(text) < 3:
-            continue
-
+        # filter junk
         if any(x in text.lower() for x in [
             "racecard", "results", "news", "tips",
-            "bet", "casino", "shop"
+            "bet", "casino", "shop", "racing post"
         ]):
             continue
 
-        if text[0].isupper():
-            runners.append(text)
+        # horse names are usually short and not sentences
+        if 3 <= len(text) <= 35:
+            if any(c.isalpha() for c in text):
+                runners.append(text)
 
     runners = list(dict.fromkeys(runners))
 
