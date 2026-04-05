@@ -18,14 +18,22 @@ def get_runners(url):
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
-    text = soup.get_text(" ")
-    words = text.split()
-
     runners = []
 
-    for w in words:
-        if w.isalpha() and w[0].isupper() and 3 <= len(w) <= 25:
-            runners.append(w)
+    for tag in soup.find_all(["h2", "h3", "span", "strong"]):
+        text = tag.get_text(strip=True)
+
+        if not text:
+            continue
+
+        if len(text) < 3 or len(text) > 30:
+            continue
+
+        if any(x in text.lower() for x in ["racecard", "odds", "results", "news"]):
+            continue
+
+        if text[0].isupper() and any(c.isalpha() for c in text):
+            runners.append(text)
 
     runners = list(dict.fromkeys(runners))
 
