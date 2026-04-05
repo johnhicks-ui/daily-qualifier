@@ -10,38 +10,34 @@ def get_racecards():
         "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
         "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
         "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
-    ]
-
-
-def get_runners(url):
+ def get_runners(url):
     headers = {"User-Agent": "Mozilla/5.0"}
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
 
+    text = soup.get_text(" ")
+
+    words = text.split()
+
     runners = []
 
-    # Racing Post runner names usually appear in bold/strong or specific links
-    for tag in soup.find_all(["strong", "a"]):
-        text = tag.get_text(strip=True)
+    for i in range(len(words) - 1):
+        w = words[i].strip()
 
-        if not text:
-            continue
-
-        # filter junk
-        if any(x in text.lower() for x in [
-            "racecard", "results", "news", "tips",
-            "bet", "casino", "shop", "racing post"
-        ]):
-            continue
-
-        # horse names are usually short and not sentences
-        if 3 <= len(text) <= 35:
-            if any(c.isalpha() for c in text):
-                runners.append(text)
+        # horse names are usually proper nouns, 2–4 words max
+        if (
+            w[0:1].isupper()
+            and 3 <= len(w) <= 25
+            and w.lower() not in ["racecard", "results", "news", "tips"]
+        ):
+            runners.append(w)
 
     runners = list(dict.fromkeys(runners))
 
-    return runners[0] if runners else None
+    return runners[0] if runners else None   ]
+
+
+
 
 
 st.title("Daily Qualifier (API Build)")
