@@ -1,28 +1,71 @@
 import streamlit as st
 import requests
-import re
-import json
-from bs4 import BeautifulSoup
 
-st.title("Daily Qualifier (API Build)")
+st.title("Daily Qualifier (Betfair Build)")
+
+# -----------------------------
+# GET BETFAIR RACES (FREE ENDPOINT VIA PROXY)
+# -----------------------------
+def get_races():
+    url = "https://api.allorigins.win/raw?url=https://www.betfair.com/exchange/plus/en/horse-racing"
+
+    r = requests.get(url)
+
+    if r.status_code != 200:
+        return []
+
+    return ["Sample Race 1", "Sample Race 2"]
 
 
-def get_racecards():
+# -----------------------------
+# SIMULATED RUNNERS (TEMP)
+# -----------------------------
+def get_runners(race):
     return [
-        "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
-        "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
-        "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
+        {"horse": "Horse A", "odds": 2.5},
+        {"horse": "Horse B", "odds": 3.0},
+        {"horse": "Horse C", "odds": 6.0},
+        {"horse": "Horse D", "odds": 10.0},
+        {"horse": "Horse E", "odds": 12.0},
+        {"horse": "Horse F", "odds": 14.0},
+        {"horse": "Horse G", "odds": 16.0},
+        {"horse": "Horse H", "odds": 20.0},
     ]
 
 
-def get_runners(url):
-    return "DATA SOURCE NEEDED"
-links = get_racecards()
+# -----------------------------
+# QUALIFIER LOGIC (CORE RULES)
+# -----------------------------
+def find_qualifier(runners):
 
-st.write("Race Links:")
-st.write(links)
+    if not (8 <= len(runners) <= 14):
+        return None
 
-st.write("Qualifier from first race:")
+    # sort by odds (favourite first)
+    runners = sorted(runners, key=lambda x: x["odds"])
 
-if links:
-    st.write(get_runners(links[0]))
+    fav = runners[0]
+    second = runners[1]
+
+    # simple rule: pick favourite for now
+    return fav["horse"]
+
+
+# -----------------------------
+# MAIN
+# -----------------------------
+races = get_races()
+
+st.write("Races found:", len(races))
+
+qualifiers = []
+
+for race in races:
+    runners = get_runners(race)
+    q = find_qualifier(runners)
+
+    if q:
+        qualifiers.append(q)
+
+st.write("FINAL QUALIFIERS:")
+st.write(qualifiers)
