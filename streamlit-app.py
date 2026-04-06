@@ -10,12 +10,14 @@ import re
 import json
 
 def get_runners(url):
+    import re
+    import json
+
     headers = {"User-Agent": "Mozilla/5.0"}
     r = requests.get(url, headers=headers)
 
     html = r.text
 
-    # STEP 1: find embedded JSON blobs
     matches = re.findall(r'<script[^>]*>(.*?)</script>', html, re.DOTALL)
 
     for m in matches:
@@ -23,9 +25,7 @@ def get_runners(url):
             try:
                 data = json.loads(m)
 
-                # STEP 2: try common structures
                 if isinstance(data, dict):
-                    # common key patterns
                     for key in ["runners", "entries", "horses"]:
                         if key in data:
                             runners = data[key]
@@ -41,7 +41,9 @@ def get_runners(url):
                             return names[0] if names else None
 
             except:
-                continue   return [
+                continue
+
+    return None
         "https://www.racingpost.com/racecards/177/clonmel/2026-04-02/916749",
         "https://www.racingpost.com/racecards/205/auteuil/2026-04-02/917017",
         "https://www.racingpost.com/racecards/27/kelso/2026-04-02/914327"
