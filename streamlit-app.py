@@ -16,36 +16,7 @@ def get_racecards():
 
 
 def get_runners(url):
-    from selenium import webdriver
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.chrome.options import Options
-    import time
-
-    options = Options()
-    options.add_argument("--headless")
-
-    driver = webdriver.Chrome(options=options)
-
-    try:
-        driver.get(url)
-        time.sleep(3)
-
-        runners = []
-
-        elements = driver.find_elements(By.CSS_SELECTOR, "[data-test-selector='participant-name']")
-
-        for el in elements:
-            name = el.text.strip()
-            if name:
-                runners.append(name)
-
-        driver.quit()
-
-        return runners[0] if runners else None
-
-    except:
-        driver.quit()
-        return None
+    return "DATA SOURCE NEEDED"
 links = get_racecards()
 
 st.write("Race Links:")
