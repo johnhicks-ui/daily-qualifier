@@ -16,35 +16,35 @@ def get_racecards():
 
 
 def get_runners(url):
-    headers = {"User-Agent": "Mozilla/5.0"}
+    from selenium import webdriver
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.chrome.options import Options
+    import time
+
+    options = Options()
+    options.add_argument("--headless")
+
+    driver = webdriver.Chrome(options=options)
 
     try:
-        # extract parts from URL
-        parts = url.split("/")
-        race_id = parts[-1]
-        meeting_id = parts[-4]
+        driver.get(url)
+        time.sleep(3)
 
-        # correct API pattern
-        api_url = f"https://www.racingpost.com/api/racecard/{meeting_id}/{race_id}"
+        runners = []
 
-        r = requests.get(api_url, headers=headers)
+        elements = driver.find_elements(By.CSS_SELECTOR, "[data-test-selector='participant-name']")
 
-        if r.status_code != 200:
-            return None
-
-        data = r.json()
-
-        runners = data.get("race", {}).get("runners", [])
-
-        names = []
-        for runner in runners:
-            name = runner.get("horse", {}).get("name")
+        for el in elements:
+            name = el.text.strip()
             if name:
-                names.append(name)
+                runners.append(name)
 
-        return names[0] if names else None
+        driver.quit()
+
+        return runners[0] if runners else None
 
     except:
+        driver.quit()
         return None
 links = get_racecards()
 
