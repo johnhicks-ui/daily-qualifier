@@ -16,36 +16,30 @@ def get_racecards():
 
 
 def get_runners(url):
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json"
-    }
+    headers = {"User-Agent": "Mozilla/5.0"}
+    r = requests.get(url, headers=headers)
 
-    # extract race ID from URL
-    race_id = url.split("/")[-1]
+    soup = BeautifulSoup(r.text, "html.parser")
 
-    api_url = f"https://www.racingpost.com/api/racecards/{race_id}"
+    runners = []
 
-    try:
-        r = requests.get(api_url, headers=headers)
+    # ACTUAL runner selector used by Racing Post
+    for tag in soup.select("a[data-test-selector='link-listCourseNameLink']"):
+        text = tag.get_text(strip=True)
 
-        if r.status_code != 200:
-            return None
+        if text:
+            runners.append(text)
 
-        data = r.json()
+    # fallback if above fails
+    if not runners:
+        for tag in soup.select("span[data-test-selector='participant-name']"):
+            text = tag.get_text(strip=True)
+            if text:
+                runners.append(text)
 
-        runners = data.get("runners", [])
+    runners = list(dict.fromkeys(runners))
 
-        names = []
-        for r in runners:
-            name = r.get("horseName") or r.get("name")
-            if name:
-                names.append(name)
-
-        return names[0] if names else None
-
-    except:
-        return None
+    return runners[0] if runners else None
 links = get_racecards()
 
 st.write("Race Links:")
