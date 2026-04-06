@@ -21,34 +21,57 @@ def get_runners(url):
 
     html = r.text
 
-    matches = re.findall(r'<script[^>]*>(.*?)</script>', html, re.DOTALL)
+    # STEP 1: find script blocks
+    scripts = re.findall(r'<script[^>]*>(.*?)</script>', html, re.DOTALL)
 
-    for m in matches:
-        if "runner" in m.lower() or "horse" in m.lower():
-            try:
-                data = json.loads(m)
+    for s in scripts:
 
-                if isinstance(data, dict):
-                    for key in ["runners", "entries", "horses"]:
-                        if key in data:
-                            runners = data[key]
+        # look for big state objects
+        if "__INITIAL_STATE__" in s or "racecard" in s.lower():
 
-                            names = []
-                            for r in runners:
-                                if isinstance(r, dict):
-                                    for k in ["horseName", "name", "runnerName"]:
-                                        if k in r:
-                                            names.append(r[k])
+            # try to isolate JSON-like content
+            start = s.find("{")
+            end = s.rfind("}")
 
-                            names = list(dict.fromkeys(names))
-                            return names[0] if names else None
+            if start != -1 and end != -1:
+                chunk = s[start:end+1]
 
-            except:
-                continue
+                try:
+                    data = json.loads(chunk)
+
+                    # try common structures
+                    def find_horses(obj):
+                        if isinstance(obj, dict):
+                            for k, v in obj.items():
+                                if k in ["runners", "entries", "horses"]:
+                                    return v
+                                res = find_horses(v)
+                                if res:
+                                    return res
+                        elif isinstance(obj, list):
+                            for item in obj:
+                                res = find_horses(item)
+                                if res:
+                                    return res
+                        return None
+
+                    runners = find_horses(data)
+
+                    if runners:
+                        names = []
+                        for r in runners:
+                            if isinstance(r, dict):
+                                for k in ["horseName", "name", "runnerName"]:
+                                    if k in r:
+                                        names.append(r[k])
+
+                        names = list(dict.fromkeys(names))
+                        return names[0] if names else None
+
+                except:
+                    continue
 
     return None
-
-
 links = get_racecards()
 
 st.write("Race Links:")
