@@ -20,7 +20,7 @@ def get_races():
 # -----------------------------
 # SIMULATED RUNNERS (TEMP)
 # -----------------------------
-def get_runners(race):
+def get_runners(url):
     return [
         {"horse": "Horse A", "odds": 2.5},
         {"horse": "Horse B", "odds": 3.0},
@@ -31,41 +31,6 @@ def get_runners(race):
         {"horse": "Horse G", "odds": 16.0},
         {"horse": "Horse H", "odds": 20.0},
     ]
-
-
-# -----------------------------
-# QUALIFIER LOGIC (CORE RULES)
-# -----------------------------
-def find_qualifier(runners):
-
-    if not (8 <= len(runners) <= 14):
-        return None
-
-    # sort by odds (favourite first)
-    runners = sorted(runners, key=lambda x: x["odds"])
-
-    fav = runners[0]
-    second = runners[1]
-
-    # simple rule: pick favourite for now
-    return fav["horse"]
-
-
-# -----------------------------
-# MAIN
-# -----------------------------
-races = get_races()
-
-st.write("Races found:", len(races))
-
-qualifiers = []
-
-for race in races:
-    runners = get_runners(race)
-    q = find_qualifier(runners)
-
-    if q:
-        qualifiers.append(q)
 
 st.write("FINAL QUALIFIERS:")
 st.write(qualifiers)
